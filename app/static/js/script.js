@@ -6,17 +6,20 @@
 (function() {
   'use strict'
 
+  const settings = {
+      sections: document.querySelectorAll('section')
+  }
 
   const app = {
-    init: function() {
+    init() {
       routes.init()
     }
   }
 
   const routes = {
-    init: function() {
-      var route = window.location.hash;
-      route != '' ? sections.toggle(route) :  window.location.hash = '#start-scherm'
+    init() {
+      let route = window.location.hash;
+      route !== '' ? sections.toggle(route) :  window.location.hash = '#start-scherm'
 
       window.addEventListener('hashchange', (event) => {
         route =  window.location.hash;
@@ -26,11 +29,10 @@
   }
 
   const sections = {
-    toggle: function(route) {
+    toggle(route) {
       //2 show active route
-      const sections = document.querySelectorAll('section')
 
-      sections.forEach(function(el){
+      settings.sections.forEach(function(el){
         '#' + el.id === route ? el.classList.add('active') : el.classList.remove('active')
       })
       console.log(route)
