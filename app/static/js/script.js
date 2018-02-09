@@ -22,7 +22,6 @@
       } else {
         sections.toggle(window.location.hash);
       }
-
       window.addEventListener('hashchange', function click(event) {
         sections.toggle(window.location.hash);
       });
