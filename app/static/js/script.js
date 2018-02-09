@@ -12,10 +12,9 @@
   };
 
   const router = {
-
     /**
      * init - function that checks if the hash is empty if so it needs to show the #start page.
-     * Toggeling should happen on every click 
+     * toggling should happen on every click
      */
     init: function(){
        if (window.location.hash === '') {
@@ -31,7 +30,7 @@
   };
 
   /**
-   * Toggeling sections on show and hidden.
+   * toggling sections on show and hidden.
    * {Object} sections
    * {method} sections.toggle
    * {method} sections.hideElements
@@ -50,7 +49,7 @@
 
    /**
     * Hide the elements by applying the hidden class.
-    * @param {String} selector The CSS Selector of the elements ot hide
+    * @param {String} selector The CSS Selector of the elements to hide
     */
    hideElements: function(selector) {
      document.querySelectorAll(selector).forEach(function(element) {
