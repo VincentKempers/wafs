@@ -12,10 +12,9 @@
   };
 
   const router = {
-
     /**
      * init - function that checks if the hash is empty if so it needs to show the #start page.
-     * Toggeling should happen on every click 
+     * toggling should happen on every click
      */
     init: function(){
       if (window.location.hash === '') {
@@ -23,7 +22,6 @@
       } else {
         sections.toggle(window.location.hash);
       }
-
       window.addEventListener('hashchange', function click(event) {
         sections.toggle(window.location.hash);
       });
@@ -31,7 +29,7 @@
   };
 
   /**
-   * Toggeling sections on show and hidden.
+   * toggling sections on show and hidden.
    * {Object} sections
    * {method} sections.toggle
    * {method} sections.hideElements
@@ -48,15 +46,15 @@
       this.showElement(id);
     },
 
-  /**
-  * Hide the elements by applying the hidden class.
-  * @param {String} selector The CSS Selector of the elements ot hide
-  */
-  hideElements: function(selector) {
-    document.querySelectorAll(selector).forEach(function(element) {
-      element.classList.add('hidden');
-    });
-  },
+   /**
+    * Hide the elements by applying the hidden class.
+    * @param {String} selector The CSS Selector of the elements to hide
+    */
+   hideElements: function(selector) {
+     document.querySelectorAll(selector).forEach(function(element) {
+       element.classList.add('hidden');
+     });
+   },
 
    /**
     * Show the element by removing the hidden class

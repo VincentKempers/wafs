@@ -61,3 +61,8 @@ That thing is the user experience because you don't want people to get annoyed b
 - [Wake up by Isadora digital agency](http://wakeup.isadoradigitalagency.com/)
 
 And what these sites all have in common, well they all have a landing page. Something that can get picked by Google. You want your SEO (Search Engine Optimisation) to work. 
+
+
+## Code reviews
+[Sam](https://github.com/Senmetsu/wafs/commit/f8e3dd1c4105c0c6d7bdf7adea8534561ab69362)
+[Alex](https://github.com/Cascuna/wafs/issues/2)
