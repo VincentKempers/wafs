@@ -8,8 +8,26 @@
   const app = {
     init: function(){
       router.init();
+      // giphyRequest.init();
     }
   };
+
+  // var giphyRequest = {
+  //   init: function(){
+  //     var xhr = new XMLHttpRequest();
+  //     xhr.open('GET',`http://api.giphy.com/v1/gifs/search?q=${this.search}&api_key=${this.api_key}&limit=10`, true);
+  //     /**
+  //      * xhr - Make a connection with the Giphy API and retrieve info.
+  //      * Check if there is a succesful connection and retrieve output.
+  //      * @return {xhr.responseText} retrieving information from the app
+  //      * {OR} @return {xhr.status} to know what error i'm retrieving
+  //      */
+  //     };
+  //   },
+  //     api_key: 'zjDU1C1AosZ5mth08HpZrvp1FAKqoh34',
+  //     search: 'Finn',
+  //
+  // }
 
   const router = {
     /**
