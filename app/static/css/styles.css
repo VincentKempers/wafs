@@ -10,3 +10,20 @@
   height: 100vh;
   width: 100vw;
 }
+
+#detailed-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.8);
+}
+
+#detailed-overlay > div {
+  background-color: white;
+  padding: 4em;
+  position: absolute;
+  top: calc(50% - 22em);
+  left: calc(50% - 22em);
+}
