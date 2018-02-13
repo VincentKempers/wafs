@@ -7,9 +7,10 @@
   'use strict';
   const app = {
     init: function(){
-      routie('gifs');
+
       requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=10`, true);
       requestAPI.xhr.send();
+      routie('gifs');
     }
   };
 
@@ -96,6 +97,27 @@
           }
         }
       }
+    },
+    renderHTML: function(gif){
+      for (let i=0; i < collection.length; i++){
+        if (`#${collection[i].slug}` === gif) {
+          let html = "<section id='detailed-overlay'>"
+          html += `<div>
+            <img src="" alt=""></a>
+            <img src="${collection[i].images.original.url}" alt=""></a>
+            <h2>${collection[i].title}</h2>
+            <section>
+              <p>${collection[i].username}</p>
+              <time>${collection[i].import_datetime}</time>
+              </section>
+          </div>
+          `;
+          html += "</section>"
+          document.getElementById("explain").innerHTML = html;
+        } else {
+          console.log('nothing');
+        }
+      }
     }
   }
 
@@ -105,26 +127,7 @@
         sections.toggle(window.location.hash);
       },
       'gifs/:gif': function(gif) {
-        console.log(gif);
-        for (let i=0; i < collection.length; i++){
-          if (`#${collection[i].slug}` === gif) {
-            let html = "<section id='detailed-overlay'>"
-            html += `<div>
-              <img src="" alt=""></a>
-              <img src="${collection[i].images.original.url}" alt=""></a>
-              <h2>${collection[i].title}</h2>
-              <section>
-                <p>${collection[i].username}</p>
-                <time>${collection[i].import_datetime}</time>
-                </section>
-            </div>
-            `;
-            html += "</section>"
-            document.getElementById("explain").innerHTML = html;
-          } else {
-            console.log('nothing');
-          }
-        }
+        requestAPI.renderHTML(gif);
       },
       'begin': function() {
         sections.toggle(window.location.hash);
