@@ -7,13 +7,17 @@
   'use strict';
   const app = {
     init: function(){
-
-      requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=10`, true);
-      requestAPI.xhr.send();
+      requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=15`, true);
       routie('gifs');
+      requestAPI.xhr.send();
     }
   };
 
+
+
+  /**
+   * empty object to store the API call in.
+   */
   let collection = {};
 
   /**
@@ -23,6 +27,8 @@
    * {method} sections.hideElements
    * {method} sections.showElement
    */
+
+
 
   const sections = {
    /**
@@ -58,7 +64,7 @@
   const requestAPI = {
     xhr: new XMLHttpRequest(),
     api_key: "zjDU1C1AosZ5mth08HpZrvp1FAKqoh34",
-    search: "Finn",
+    search: 'vincent',
     activeSearch: function() {
       this.search.addEventListener("keyup", function(event){
         this.key =+ requestAPI.search;
@@ -78,11 +84,17 @@
           if (this.status === 200) {
             let html = "<ul>";
             let giphy = JSON.parse(this.responseText);
-              collection = giphy.data
+              collection = giphy.data;
+              // requestAPI.arrayMap(collection);
+
+              /**
+               * collection - map collection and reduce the content that you recieve
+               */
+
               collection.forEach(function(d){
                 html += `
                 <li>
-                  <a href="#gifs/#${d.slug}"><img src="${d.images.original.url}" alt=""></a>
+                  <a href="#gifs/#${d.slug}"><img src="${d.images.fixed_width.url}" alt=""></a>
                   <h2>${d.title}</h2>
                   <section>
                     <p>${d.username}</p>
@@ -102,20 +114,20 @@
       for (let i=0; i < collection.length; i++){
         if (`#${collection[i].slug}` === gif) {
           let html = "<section id='detailed-overlay'>"
-          html += `<div>
+          html += `
+          <div>
             <img src="" alt=""></a>
             <img src="${collection[i].images.original.url}" alt=""></a>
             <h2>${collection[i].title}</h2>
             <section>
               <p>${collection[i].username}</p>
               <time>${collection[i].import_datetime}</time>
+              <a href=${collection[i].source}><button>Go to source</button></a>
               </section>
           </div>
           `;
           html += "</section>"
           document.getElementById("explain").innerHTML = html;
-        } else {
-          console.log('nothing');
         }
       }
     }
