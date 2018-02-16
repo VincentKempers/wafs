@@ -61,7 +61,7 @@
       let searchEl = document.getElementById('search');
       searchEl.addEventListener("keypress", function(event){
         searchEl.value;
-        requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=30`, true);
+        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=30`, true);
         requestAPI.xhr.send();
       })
     },
@@ -114,13 +114,6 @@
       }
     },
     renderHTML: function(gif){
-
-      /**
-       * for - to check every slug and match with the one you clicked and check if it's the same.      
-       *
-       * @param  {type} var i = 0; i < collection.length; i++ description
-       * @return {type}                                       description
-       */
       for (var i = 0; i < collection.length; i++) {
         console.log(`${collection[i].slug}`);
         if (`#${collection[i].slug}` == gif) {
@@ -143,7 +136,7 @@
       }
     }
   }
-
+// handles the routes
   routie({
       'gifs': function() {
         requestAPI.onReady();
