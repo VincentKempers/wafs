@@ -7,9 +7,8 @@
   'use strict';
   const app = {
     init: function(){
-      requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=15`, true);
       routie('gifs');
-      requestAPI.xhr.send();
+      requestAPI.activeSearch();
     }
   };
 
@@ -17,7 +16,6 @@
    * empty object to store the API call in.
    */
   let collection = {};
-
   /**
    * toggling sections on show and hidden.
    * {Object} sections
@@ -25,9 +23,6 @@
    * {method} sections.hideElements
    * {method} sections.showElement
    */
-
-
-
   const sections = {
    /**
     * Disable all sections, enable the one with the ID passed
@@ -62,10 +57,12 @@
   const requestAPI = {
     xhr: new XMLHttpRequest(),
     api_key: "zjDU1C1AosZ5mth08HpZrvp1FAKqoh34",
-    search: 'vincent',
     activeSearch: function() {
-      this.search.addEventListener("keyup", function(event){
-        this.key =+ requestAPI.search;
+      let searchEl = document.getElementById('search');
+      searchEl.addEventListener("keypress", function(event){
+        searchEl.value;
+        requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=30`, true);
+        requestAPI.xhr.send();
       })
     },
     onReady: function() {
@@ -82,22 +79,32 @@
           if (this.status === 200) {
             let html = "<ul>";
             let giphy = JSON.parse(this.responseText);
-              collection = giphy.data;
-
               /**
-               * collection - map collection and reduce the content that you recieve
+               * collection - map collection or reduce the content that you recieve
                */
-              collection.forEach(function(d){
-                html += `
-                <li>
-                  <a href="#gifs/#${d.slug}"><img src="${d.images.fixed_width.url}" alt=""></a>
-                  <h2>${d.title}</h2>
-                  <section>
-                    <p>${d.username}</p>
-                    <time>${d.import_datetime}</time>
-                    </section>
-                </li>`
-              })
+              collection = giphy.data.map(function(d){
+                 return  {
+                 slug: d.slug,
+                 title: d.title,
+                 username: d.username,
+                 originalIMG: d.images.original.url,
+                 fixedIMG: d.images.fixed_width.url,
+                 dateTime:d.import_datetime,
+                 source: d.source
+                }
+               });
+
+               collection.forEach(function(d){
+                 html += `
+                 <li>
+                   <a href="#gifs/#${d.slug}"><img src="${d.fixedIMG}" alt=""></a>
+                   <h2>${d.title}</h2>
+                   <section>
+                     <p>${d.username}</p>
+                     <time>${d.dateTime}</time>
+                     </section>
+                 </li>`
+               })
             html += "</ul>";
             document.getElementById("gif-result").innerHTML = html;
           } else {
@@ -107,17 +114,25 @@
       }
     },
     renderHTML: function(gif){
-      for (let i=0; i < collection.length; i++){
-        if (`#${collection[i].slug}` === gif) {
+
+      /**
+       * for - to check every slug and match with the one you clicked and check if it's the same.      
+       *
+       * @param  {type} var i = 0; i < collection.length; i++ description
+       * @return {type}                                       description
+       */
+      for (var i = 0; i < collection.length; i++) {
+        console.log(`${collection[i].slug}`);
+        if (`#${collection[i].slug}` == gif) {
           let html = "<section id='detailed-overlay'>"
           html += `
           <div>
             <img src="" alt=""></a>
-            <img src="${collection[i].images.original.url}" alt=""></a>
+            <img src="${collection[i].originalIMG}" alt=""></a>
             <h2>${collection[i].title}</h2>
             <section>
               <p>${collection[i].username}</p>
-              <time>${collection[i].import_datetime}</time>
+              <time>${collection[i].dateTime}</time>
               <a href=${collection[i].source}><button>Go to source</button></a>
               </section>
           </div>
@@ -135,6 +150,7 @@
         sections.toggle(window.location.hash);
       },
       'gifs/:gif': function(gif) {
+        requestAPI.onReady();
         requestAPI.renderHTML(gif);
       },
       'begin': function() {
