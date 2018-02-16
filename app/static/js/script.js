@@ -7,9 +7,28 @@
   'use strict';
   const app = {
     init: function(){
-      requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=15`, true);
+      // requestAPI.xhr.open("GET", `http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=15`, true);
+      // requestAPI.asyncRequest(`http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=15`);
       routie('gifs');
-      requestAPI.xhr.send();
+      // requestAPI.xhr.send();
+      function get(url) {
+        return new Promise(function(resolve, reject) {
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", url);
+          xhr.onload = function () { resolve(xhr.responseText);};
+          xhr.onerror = function() { reject(xhr.statusText); };
+          xhr.send();
+        });
+      }
+      get(`http://api.giphy.com/v1/gifs/search?q=${requestAPI.search}&api_key=${requestAPI.api_key}&limit=15`).then(function(response) {
+        let newGiphy = JSON.parse(response);
+        collection = newGiphy.data;
+        console.log(collection);
+        collection.map();
+
+       }, function(error) {
+        console.log("failed", error);
+       })
     }
   };
 
@@ -59,9 +78,17 @@
    }
  };
 
-// make an object out of the ajax request
 
   const requestAPI = {
+
+    /**
+     * asyncRequest - adds a promise that will handle the request!
+     *
+     * @param  {type} url loads the url of the API
+     * @return {new Promise}   starts a new promise and when loads gets the ajax responseText & does errorhandling
+     */
+    asyncRequest: "ehh",
+  // make an object out of the ajax request
     xhr: new XMLHttpRequest(),
     api_key: "zjDU1C1AosZ5mth08HpZrvp1FAKqoh34",
     search: 'vincent',
