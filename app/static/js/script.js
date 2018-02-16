@@ -13,8 +13,6 @@
     }
   };
 
-
-
   /**
    * empty object to store the API call in.
    */
@@ -85,12 +83,10 @@
             let html = "<ul>";
             let giphy = JSON.parse(this.responseText);
               collection = giphy.data;
-              // requestAPI.arrayMap(collection);
 
               /**
                * collection - map collection and reduce the content that you recieve
                */
-
               collection.forEach(function(d){
                 html += `
                 <li>
