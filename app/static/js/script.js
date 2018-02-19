@@ -158,7 +158,7 @@
         requestAPI.onReady();
         let getItems = JSON.parse(localStorage.getItem("favourites"));
         console.log(getItems);
-        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/api_key=${requestAPI.api_key}&ids=${getItems}`, true);
+        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/ids=${getItems}&api_key=${requestAPI.api_key}&limit=22`, true);
         requestAPI.xhr.send();
       }
     }
