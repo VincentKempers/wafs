@@ -23,7 +23,7 @@
    * {method} sections.hideElements
    * {method} sections.showElement
    */
-  const sections = {
+  const content = {
    /**
     * Disable all sections, enable the one with the ID passed
     * @memberof sections
@@ -63,7 +63,7 @@
         searchEl.value;
         requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=30`, true);
         requestAPI.xhr.send();
-      })
+      });
     },
     onReady: function() {
       this.xhr.onreadystatechange = function () {
@@ -77,7 +77,6 @@
        */
         if (this.readyState === 4) {
           if (this.status === 200) {
-            let html = "<ul>";
             let giphy = JSON.parse(this.responseText);
               /**
                * collection - map collection or reduce the content that you recieve
@@ -93,9 +92,20 @@
                  source: d.source
                 }
                });
+              renderContent.renderHTML();
+          } else {
+            console.log(`error: ${this.status}`);
+          }
+        }
+      }
+    }
+  }
 
-               collection.forEach(function(d){
-                 html += `
+  const renderContent = {
+    renderHTML: function() {
+      let html = "<ul>";
+      collection.forEach(function(d){
+        html += `
                  <li>
                    <a href="#gifs/#${d.slug}"><img src="${d.fixedIMG}" alt=""></a>
                    <h2>${d.title}</h2>
@@ -103,19 +113,14 @@
                      <p>${d.username}</p>
                      <time>${d.dateTime}</time>
                      </section>
-                 </li>`
-               })
-            html += "</ul>";
-            document.getElementById("gif-result").innerHTML = html;
-          } else {
-            console.log(`error: ${this.status}`);
-          }
-        }
-      }
+                 </li>`;
+               });
+        html += "</ul>";
+      document.getElementById("gif-result").innerHTML = html;
     },
-    renderHTML: function(gif){
+    renderSlugHTML: function(gif){
+
       for (var i = 0; i < collection.length; i++) {
-        console.log(`${collection[i].slug}`);
         if (`#${collection[i].slug}` == gif) {
           let html = "<section id='detailed-overlay'>"
           html += `
@@ -136,21 +141,22 @@
       }
     }
   }
+
 // handles the routes
   routie({
       'gifs': function() {
         requestAPI.onReady();
-        sections.toggle(window.location.hash);
+        content.toggle(window.location.hash);
       },
       'gifs/:gif': function(gif) {
         requestAPI.onReady();
-        requestAPI.renderHTML(gif);
+        renderContent.renderSlugHTML(gif);
       },
       'begin': function() {
-        sections.toggle(window.location.hash);
+        content.toggle(window.location.hash);
       },
       'best-practices': function() {
-        sections.toggle(window.location.hash);
+        content.toggle(window.location.hash);
       }
   });
 
