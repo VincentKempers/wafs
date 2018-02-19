@@ -59,9 +59,9 @@
     api_key: "zjDU1C1AosZ5mth08HpZrvp1FAKqoh34",
     activeSearch: function() {
       let searchEl = document.getElementById('search');
-      searchEl.addEventListener("keypress", function(event){
+      searchEl.addEventListener("keyup", function(event){
         searchEl.value;
-        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=30`, true);
+        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=22&rating=pg`, true);
         requestAPI.xhr.send();
       });
     },
@@ -119,15 +119,15 @@
       document.getElementById("gif-result").innerHTML = html;
     },
     renderSlugHTML: function(gif){
-
       for (var i = 0; i < collection.length; i++) {
         if (`#${collection[i].slug}` == gif) {
           let html = "<section id='detailed-overlay'>"
           html += `
           <div>
-            <img src="" alt=""></a>
+            <a href="#gifs"><img src="static/imgs/cross.svg" alt="go back"></a>
             <img src="${collection[i].originalIMG}" alt=""></a>
             <h2>${collection[i].title}</h2>
+            <img id="save" src="static/imgs/star.svg" alt="save to favourites">
             <section>
               <p>${collection[i].username}</p>
               <time>${collection[i].dateTime}</time>
@@ -136,9 +136,18 @@
           </div>
           `;
           html += "</section>"
-          document.getElementById("explain").innerHTML = html;
+          document.getElementById("explain").insertAdjacentHTML('afterbegin', html);
+          renderContent.makeFavourite(gif);
         }
       }
+    },
+    makeFavourite: function(gif) {
+      let save = document.getElementById('save');
+      save.addEventListener('click', function(event){
+        let storeGifs = [];
+        storeGifs.push(gif);
+        localStorage.setItem("favourites", JSON.stringify(storeGifs));
+      }, true);
     }
   }
 
