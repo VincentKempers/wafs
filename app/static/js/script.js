@@ -26,7 +26,7 @@
   const content = {
    /**
     * Disable all sections, enable the one with the ID passed
-    * @memberof sections
+    * @memberof content
     * @param {String} id The ID of the element to enable
     */
    toggle: function(id) {
@@ -83,6 +83,7 @@
                */
               collection = giphy.data.map(function(d){
                  return  {
+                 id: d.id,
                  slug: d.slug,
                  title: d.title,
                  username: d.username,
@@ -107,7 +108,7 @@
       collection.forEach(function(d){
         html += `
                  <li>
-                   <a href="#gifs/#${d.slug}"><img src="${d.fixedIMG}" alt=""></a>
+                   <a href="#gifs/${d.id}"><img src="${d.fixedIMG}" alt=""></a>
                    <h2>${d.title}</h2>
                    <section>
                      <p>${d.username}</p>
@@ -120,7 +121,7 @@
     },
     renderSlugHTML: function(gif){
       for (var i = 0; i < collection.length; i++) {
-        if (`#${collection[i].slug}` == gif) {
+        if (`${collection[i].id}` == gif) {
           let html = "<section id='detailed-overlay'>"
           html += `
           <div>
@@ -144,10 +145,22 @@
     makeFavourite: function(gif) {
       let save = document.getElementById('save');
       save.addEventListener('click', function(event){
-        let storeGifs = [];
+        let storeGifs = JSON.parse(localStorage.getItem('favourites')) || [];
         storeGifs.push(gif);
-        localStorage.setItem("favourites", JSON.stringify(storeGifs));
+        let favGifs = JSON.stringify(storeGifs);
+        localStorage.setItem("favourites", favGifs);
       }, true);
+    },
+    getFavourites: function() {
+      if ( localStorage.getItem("favourites") === "") {
+        console.log('empty')
+      } else {
+        requestAPI.onReady();
+        let getItems = JSON.parse(localStorage.getItem("favourites"));
+        console.log(getItems);
+        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/api_key=${requestAPI.api_key}&ids=${getItems}`, true);
+        requestAPI.xhr.send();
+      }
     }
   }
 
@@ -155,16 +168,17 @@
   routie({
       'gifs': function() {
         requestAPI.onReady();
-        content.toggle(window.location.hash);
+        content.toggle(window.location.hash); 
       },
       'gifs/:gif': function(gif) {
         requestAPI.onReady();
         renderContent.renderSlugHTML(gif);
       },
-      'begin': function() {
+      'favourites': function() {
+        renderContent.getFavourites();
         content.toggle(window.location.hash);
       },
-      'best-practices': function() {
+      'trending': function() {
         content.toggle(window.location.hash);
       }
   });
