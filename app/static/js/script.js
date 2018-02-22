@@ -168,7 +168,7 @@
   routie({
       'gifs': function() {
         requestAPI.onReady();
-        content.toggle(window.location.hash); 
+        content.toggle(window.location.hash);
       },
       'gifs/:gif': function(gif) {
         requestAPI.onReady();
