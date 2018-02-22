@@ -6,14 +6,14 @@ ul {
   list-style: none;
 }
 
-#gif-result > ul {
+#gif-result > ul, #yourFavs > ul {
   display: grid;
   grid-template-columns: 33% 33% 33%;
   grid-template-rows: 33% 33% 33%;
   padding:0;
 }
 
-#gif-result ul > li {
+#gif-result ul > li, #yourFavs ul > li {
   justify-self: fill;
   background-color: lightblue;
   display: flex;
@@ -23,7 +23,11 @@ ul {
   align-items: center;
 }
 
-#gif-result ul li > a {
+#yourFavs ul > li {
+  background-color: rgba(250, 251, 149, 1.000);
+}
+
+#gif-result ul li > a, #yourFavs ul li > a {
   padding: 1em 0 1em 0;
 }
 

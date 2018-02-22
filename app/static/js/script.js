@@ -5,17 +5,19 @@
 
 (function(){
   'use strict';
-  const app = {
+  let app = {
     init: function(){
       routie('gifs');
       requestAPI.activeSearch();
-    }
-  };
+      requestAPI.onReady();
+    },
+    collection: {}
+  }
 
   /**
    * empty object to store the API call in.
    */
-  let collection = {};
+  // let
   /**
    * toggling sections on show and hidden.
    * {Object} sections
@@ -47,10 +49,22 @@
     * @param {String} selector The CSS Selector of the element to show
     */
    showElement: function(selector) {
-     console.log(selector);
      document.querySelector(selector).classList.remove('hidden');
+   },
+   makeFavourite: function(gif) {
+     let save = document.getElementById('save');
+     save.addEventListener('click', function(event){
+       let storeGifs = JSON.parse(localStorage.getItem('favourites')) || [];
+       app.collection.forEach(function(d){
+         if (d.id === gif) {
+           storeGifs.push(d);
+         }
+       })
+       let favGifs = JSON.stringify(storeGifs);
+       localStorage.setItem("favourites", favGifs);
+     }, true);
    }
- };
+ }
 
 // make an object out of the ajax request
 
@@ -60,8 +74,8 @@
     activeSearch: function() {
       let searchEl = document.getElementById('search');
       searchEl.addEventListener("keyup", function(event){
-        searchEl.value;
-        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=22&rating=pg`, true);
+        requestAPI.onReady();
+        requestAPI.xhr.open("GET",`https://api.giphy.com/v1/gifs/search?q=${searchEl.value}&api_key=${requestAPI.api_key}&limit=18&rating=pg`, true);
         requestAPI.xhr.send();
       });
     },
@@ -81,7 +95,7 @@
               /**
                * collection - map collection or reduce the content that you recieve
                */
-              collection = giphy.data.map(function(d){
+              app.collection = giphy.data.map(function(d){
                  return  {
                  id: d.id,
                  slug: d.slug,
@@ -95,7 +109,7 @@
                });
               renderContent.renderHTML();
           } else {
-            console.log(`error: ${this.status}`);
+            renderContent.renderError();
           }
         }
       }
@@ -105,7 +119,7 @@
   const renderContent = {
     renderHTML: function() {
       let html = "<ul>";
-      collection.forEach(function(d){
+      app.collection.forEach(function(d){
         html += `
                  <li>
                    <a href="#gifs/${d.id}"><img src="${d.fixedIMG}" alt=""></a>
@@ -120,47 +134,81 @@
       document.getElementById("gif-result").innerHTML = html;
     },
     renderSlugHTML: function(gif){
-      for (var i = 0; i < collection.length; i++) {
-        if (`${collection[i].id}` == gif) {
+      function filterByID(item) {
+        if (item.id == gif) {
           let html = "<section id='detailed-overlay'>"
           html += `
           <div>
             <a href="#gifs"><img src="static/imgs/cross.svg" alt="go back"></a>
-            <img src="${collection[i].originalIMG}" alt=""></a>
-            <h2>${collection[i].title}</h2>
+            <img src="${item.originalIMG}" alt=""></a>
+            <h2>${item.title}</h2>
             <img id="save" src="static/imgs/star.svg" alt="save to favourites">
             <section>
-              <p>${collection[i].username}</p>
-              <time>${collection[i].dateTime}</time>
-              <a href=${collection[i].source}><button>Go to source</button></a>
+              <p>${item.username}</p>
+              <time>${item.dateTime}</time>
+              <a href=${item.source}><button>Go to source</button></a>
               </section>
           </div>
           `;
-          html += "</section>"
-          document.getElementById("explain").insertAdjacentHTML('afterbegin', html);
-          renderContent.makeFavourite(gif);
+          html += "</section>";
+          document.getElementById("detail-gif").insertAdjacentHTML('afterbegin', html);
+          content.makeFavourite(gif);
         }
       }
-    },
-    makeFavourite: function(gif) {
-      let save = document.getElementById('save');
-      save.addEventListener('click', function(event){
-        let storeGifs = JSON.parse(localStorage.getItem('favourites')) || [];
-        storeGifs.push(gif);
-        let favGifs = JSON.stringify(storeGifs);
-        localStorage.setItem("favourites", favGifs);
-      }, true);
+      app.collection.filter(filterByID);
     },
     getFavourites: function() {
-      if ( localStorage.getItem("favourites") === "") {
-        console.log('empty')
+      let getItems = JSON.parse(localStorage.getItem("favourites"));
+      if ( getItems === null ) {
+        let html = "<div id='empty'>";
+          html += `
+          <h2>It's empty here</h2>
+            <img src="static/imgs/source.gif" alt="">
+          `;
+        html += "</div>";
+        document.getElementById("yourFavs").innerHTML = html;
       } else {
-        requestAPI.onReady();
-        let getItems = JSON.parse(localStorage.getItem("favourites"));
-        console.log(getItems);
-        requestAPI.xhr.open("GET",`http://api.giphy.com/v1/gifs/ids=${getItems}&api_key=${requestAPI.api_key}&limit=22`, true);
-        requestAPI.xhr.send();
+        let html = "<ul>";
+        getItems.forEach(function(d){
+          html += `
+          <li>
+            <a href="#favourites/${d.id}"><img src="${d.fixedIMG}" alt=""></a>
+            <h2>${d.title}</h2>
+          </li>
+          `
+        });
+        html += "</ul>";
+        document.getElementById("yourFavs").innerHTML = html;
       }
+    },
+    renderFavSlug: function(gif){
+      let getItems = JSON.parse(localStorage.getItem("favourites"));
+      getItems.forEach(function(d) {
+        if (d.id === gif) {
+          let html = "<section id='detailed-overlay'>"
+          html += `
+          <div>
+            <a href="#favourites"><img src="static/imgs/cross.svg" alt="go back"></a>
+            <img src="${d.originalIMG}" alt=""></a>
+            <h2>${d.title}</h2>
+            <section>
+              <p>${d.username}</p>
+              <time>${d.dateTime}</time>
+              <a href=${d.source}><button>Go to source</button></a>
+              </section>
+          </div>
+          `;
+          html += "</section>";
+          document.getElementById("detail-fav").insertAdjacentHTML('afterbegin', html);
+        }
+      });
+    },
+    renderError: function() {
+      let errorHTML = `
+      <h2>Something went wrong...</h2>
+      <img src="static/imgs/error.gif" alt="something went wrong im broken gif">
+      `;
+      document.getElementById("gif-result").innerHTML = errorHTML;
     }
   }
 
@@ -171,12 +219,15 @@
         content.toggle(window.location.hash);
       },
       'gifs/:gif': function(gif) {
-        requestAPI.onReady();
         renderContent.renderSlugHTML(gif);
       },
       'favourites': function() {
         renderContent.getFavourites();
         content.toggle(window.location.hash);
+
+      },'favourites/:gif':function(gif){
+        // renderContent.getFavourites();
+        renderContent.renderFavSlug(gif);
       },
       'trending': function() {
         content.toggle(window.location.hash);
