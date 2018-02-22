@@ -23,14 +23,15 @@ ul {
   align-items: center;
 }
 
-#yourFavs ul > li {
-  background-color: rgba(250, 251, 149, 1.000);
+#gif-result > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3em;
 }
 
-#gif-result ul li > a, #yourFavs ul li > a {
-  padding: 1em 0 1em 0;
-}
-
+/* overlay */
 #detailed-overlay {
   position: fixed;
   top: 0;
@@ -46,4 +47,13 @@ ul {
   position: absolute;
   top: calc(50% - 30em);
   left: calc(50% - 18em);
+}
+
+/*  your favs page*/
+#yourFavs ul > li {
+  background-color: rgba(250, 251, 149, 1.000);
+}
+
+#gif-result ul li > a, #yourFavs ul li > a {
+  padding: 1em 0 1em 0;
 }
