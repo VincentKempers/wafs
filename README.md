@@ -11,10 +11,6 @@ you can click on a gif to see what the gif is about and check out the source, da
 
 ![Selected one gif](readme-imgs/selected.png)
 
-## Flow
-
-![flow diagram](readme-imgs/flow-diagram.png)
-
 ## Code
 Created my own templating in a sense (example).
 
@@ -83,6 +79,11 @@ images {
 }
 /* there are some smaller and downsampled options in the Api */
 ```
+
+## Flow
+
+![flow diagram](readme-imgs/flow-diagram.png)
+
 
 ## Credits
 
