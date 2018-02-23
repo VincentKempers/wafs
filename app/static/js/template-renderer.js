@@ -81,7 +81,7 @@ const renderContent = (function(){
             <section>
               <p>${d.username}</p>
               <time>${d.dateTime}</time>
-              <a href=${d.source}><button>Go to source</button></a>
+              <a href=${d.originalIMG}><button>go to hosted picture</button></a>
               </section>
           </div>
           `;
