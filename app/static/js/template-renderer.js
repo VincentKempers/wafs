@@ -3,7 +3,7 @@ const renderContent = (function(){
   return {
     renderHTML: function() {
       let html = "<ul>";
-      app.collection.forEach(function(d){
+      content.collection.forEach(function(d){
         html += `
                  <li>
                    <a href="#gifs/${d.id}"><img src="${d.fixedIMG}" alt="${d.title}"></a>
@@ -42,7 +42,7 @@ const renderContent = (function(){
           content.makeFavourite(gif);
         }
       }
-      app.collection.filter(filterByID);
+      content.collection.filter(filterByID);
     },
     renderFavourites: function() {
       let getItems = JSON.parse(localStorage.getItem("favourites"));

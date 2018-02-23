@@ -30,7 +30,7 @@ const requestAPI = (function (){
               /**
                * collection - map collection or reduce the content that you recieve
                */
-              app.collection = giphy.data.map(function(d){
+              content.collection = giphy.data.map(function(d){
                  return  {
                  id: d.id,
                  slug: d.slug,

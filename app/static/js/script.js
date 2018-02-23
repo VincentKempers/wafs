@@ -4,13 +4,11 @@
  */
 
   let app = (function() {
-    // empty variable to store the page data of every search
-    var collection = {};
 
     return {
       init: function(){
-        requestAPI.activeSearch();
         requestAPI.onReady();
+        requestAPI.activeSearch();
         content.router();
       }
     }

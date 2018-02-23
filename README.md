@@ -51,6 +51,8 @@ function filterByID(item) {
 
 ![actor diagram](readme-imgs/actor-diagram.png)
 
+![Actor flow diagram](readme-imgs/actual-flow-diagram.png)
+
 By making use of modules you could see the project work as individual files. To make this more visual I used a _actor diagram_ to visualize the finished product.
 
 ```js
@@ -82,9 +84,9 @@ images {
 /* there are some smaller and downsampled options in the Api */
 ```
 
-## Flow
+## User Flow
 
-![flow diagram](readme-imgs/flow-diagram.png)
+![User flow diagram](readme-imgs/flow-diagram.png)
 
 
 ## Credits

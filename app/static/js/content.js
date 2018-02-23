@@ -24,6 +24,9 @@ let content = (function() {
       document.querySelector(selector).classList.remove('hidden');
   };
 
+  // empty variable to store the page data of every search
+  var collection = {};
+
   return {
    /**
     * Disable all sections, enable the one with the ID passed
