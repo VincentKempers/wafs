@@ -54,12 +54,13 @@ let content = (function() {
            }
        });
    },
+   collection: collection,
    makeFavourite: function(gif) {
      let save = document.getElementById('save');
      save.addEventListener('click', function(event){
        let storeGifs = JSON.parse(localStorage.getItem('favourites')) || [];
        save.classList.add("fill");
-       app.collection.forEach(function(d){
+       content.collection.forEach(function(d){
          if (d.id === gif) {
            storeGifs.push(d);
          }
