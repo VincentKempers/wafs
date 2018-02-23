@@ -44,7 +44,7 @@ const renderContent = (function(){
       }
       app.collection.filter(filterByID);
     },
-    getFavourites: function() {
+    renderFavourites: function() {
       let getItems = JSON.parse(localStorage.getItem("favourites"));
       if ( getItems === null ) {
         let html = "<div id='empty'>";

@@ -27,7 +27,6 @@ const requestAPI = (function (){
         if (this.readyState === 4) {
           if (this.status === 200) {
             let giphy = JSON.parse(this.responseText);
-            console.log(giphy.data);
               /**
                * collection - map collection or reduce the content that you recieve
                */

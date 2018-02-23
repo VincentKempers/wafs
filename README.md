@@ -1,7 +1,7 @@
 <h1 align="center"> Giphy Search Api! </h1>
 <h4 align="center">A Simplified giphy search app where you can favourite your favourite gifs.</h4>
 
-<p align="center"><a href="https://vincentkempers.github.io/wafs/app/#favourites">It's alive!</a></p>
+<p align="center"><a href="https://vincentkempers.github.io/wafs/app/#favourites">It's alive!</a>🎉🎉</p>
 
 ## Key Features
 It's a connection with the giphy API to look up your favourite gifs. With this application you can favourite gifs & go to the source of the gif.

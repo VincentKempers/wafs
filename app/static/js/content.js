@@ -16,7 +16,6 @@ let content = (function() {
       element.classList.add('hidden');
     });
   }
-
     /**
      * Show the element by removing the hidden class
      * @param {String} selector The CSS Selector of the element to show
@@ -35,12 +34,28 @@ let content = (function() {
      hideElements('section');
      showElement(id);
    },
-   makeFavourite: function(gif) {
+   router: function(){
+     routie({
+           'gifs': function() {
+             content.toggle(window.location.hash);
+           },
+           'gifs/:gif': function(gif) {
+             renderContent.renderSlugHTML(gif);
+           },
+           'favourites': function() {
+             renderContent.renderFavourites();
+             content.toggle(window.location.hash);
 
+           },'favourites/:gif':function(gif){
+             renderContent.renderFavSlug(gif);
+           }
+       });
+   },
+   makeFavourite: function(gif) {
      let save = document.getElementById('save');
      save.addEventListener('click', function(event){
        let storeGifs = JSON.parse(localStorage.getItem('favourites')) || [];
-       save.style.fill = "pink";
+       save.classList.add("fill");
        app.collection.forEach(function(d){
          if (d.id === gif) {
            storeGifs.push(d);
@@ -50,5 +65,6 @@ let content = (function() {
        localStorage.setItem("favourites", favGifs);
      }, true);
    }
+
   }
 })();
