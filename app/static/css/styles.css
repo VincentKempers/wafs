@@ -117,7 +117,7 @@ input:focus {
   align-items: center;
 }
 
-#gif-result > div {
+#gif-result > div, #yourFavs > div {
   display: flex;
   flex-direction: column;
   justify-content: center;

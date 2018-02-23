@@ -49,8 +49,9 @@ const renderContent = (function(){
       if ( getItems === null ) {
         let html = "<div id='empty'>";
           html += `
-          <h2>It's empty here</h2>
+          <h2>It's empty here!</h2>
             <img src="static/imgs/source.gif" alt="">
+            <p>Go get some awesome gifs here!</p>
           `;
         html += "</div>";
         document.getElementById("yourFavs").innerHTML = html;
@@ -59,7 +60,7 @@ const renderContent = (function(){
         getItems.forEach(function(d){
           html += `
           <li>
-            <a href="#favourites/${d.id}"><img src="${d.fixedIMG}" alt=""></a>
+            <a href="#favourites/${d.id}"><img src="${d.fixedIMG}" alt="${d.title}"></a>
             <h3>${d.title}</h3>
           </li>
           `
