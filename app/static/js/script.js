@@ -16,8 +16,6 @@
         routie('gifs');
       }
     }
-
-
 })();
 
 // handles the routes
