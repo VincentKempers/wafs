@@ -27,6 +27,7 @@ const requestAPI = (function (){
         if (this.readyState === 4) {
           if (this.status === 200) {
             let giphy = JSON.parse(this.responseText);
+            console.log(giphy.data);
               /**
                * collection - map collection or reduce the content that you recieve
                */
@@ -36,8 +37,8 @@ const requestAPI = (function (){
                  slug: d.slug,
                  title: d.title,
                  username: d.username,
-                 originalIMG: d.images.original.url,
-                 fixedIMG: d.images.fixed_width.url,
+                 originalIMG: d.images.downsized_medium.url,
+                 fixedIMG: d.images.fixed_width_downsampled.url,
                  dateTime:d.import_datetime,
                  source: d.source
                 }

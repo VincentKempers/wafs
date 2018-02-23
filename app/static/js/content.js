@@ -40,6 +40,7 @@ let content = (function() {
      let save = document.getElementById('save');
      save.addEventListener('click', function(event){
        let storeGifs = JSON.parse(localStorage.getItem('favourites')) || [];
+       save.style.fill = "pink";
        app.collection.forEach(function(d){
          if (d.id === gif) {
            storeGifs.push(d);
